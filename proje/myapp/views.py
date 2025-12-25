@@ -1,24 +1,29 @@
 from django.http import response, HttpResponseNotFound, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect,render
 from django.urls import reverse
-
+import datetime
 # Create your views here.
 #
 data = {
-    "telefon":"telefon kategorisinde bulunnalar",
-    "bilgisayar":"bilgisayar kategorisinde bulunanlar",
-    "elektronik":"elektronik kategorisinde bulunanlardataexe",
+    "telefon": ["samsungs20","apple10","oppo10pro"] ,
+    "bilgisayar":["leptop1","leptop2"],
+    "elektronik":[]
 }
 def index(request):
     # list_items=""
-    # category_list=list(data.keys())
+    categories=list(data.keys()) #key ve value üretir
+    
     
     # for category in category_list:
     #     redirect_path= reverse("products_by_category", args=[category])
     #     list_items +=f" <li><a href=\"{redirect_path}\">{category} </a> </li>"
         
     # html= f"<ul>{list_items}</ul>"
-    return render(request, 'index.html')
+    return render(request, 'index.html',{
+        "categories":categories,
+       
+        
+    })
 
     
 
@@ -37,8 +42,14 @@ def getProductsByCategoryId(request , category_id):
 
 def getProductsByCategory(request,category):
     try:
-         category_text=data[category]
-         return HttpResponse(f"<h1>  {category_text} </h1>")
+         products=data[category]
+         
+         return render(request,'products.html',{
+             "category":category,
+              "urunler": products,
+              "now":datetime.datetime.now()
+             
+         })
     except:
         return HttpResponseNotFound(f"<h1> yanlış kategori seçimi </h1>")
         
