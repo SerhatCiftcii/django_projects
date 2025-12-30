@@ -4,19 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      {% comment %} <link rel="stylesheet" href="{% static "css/style.css" %}">   burası gloabal olmayan{% endcomment %}
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">
-  
 
-    {% block css_files %}{% endblock  %}
-    <title>{% block page_title  %} Layout {% endblock  %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block css_files %}{% endblock %}
 
-
+    <title>{% block page_title %}Layout{% endblock %}</title>
 </head>
 <body>
 
- {% block content %}
- {% endblock  %}
- {% block js_files %}{% endblock js_files %}
+    {% include "partials/_header.html" %}   {# 👈 NAVBAR BURADA #}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block js_files %}
+    {% endblock %}
 </body>
 </html>

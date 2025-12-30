@@ -1,7 +1,8 @@
-from django.http import response, HttpResponseNotFound, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect, response
 from django.shortcuts import redirect,render
 from django.urls import reverse
 import datetime
+from .models import Product
 # Create your views here.
 #
 data = {
@@ -10,23 +11,25 @@ data = {
     "elektronik":[]
 }
 def index(request):
-    # list_items=""
-    categories=list(data.keys()) #key ve value üretir
-    
-    
-    # for category in category_list:
-    #     redirect_path= reverse("products_by_category", args=[category])
-    #     list_items +=f" <li><a href=\"{redirect_path}\">{category} </a> </li>"
-        
-    # html= f"<ul>{list_items}</ul>"
-    return render(request, 'index.html',{
-        "categories":categories,
-       
-        
+    products=Product.objects.all()
+    context={
+        "products":products
+    }
+    return render(request,'index.html',context)
+
+
+def details(request, slug):
+    product = Product.objects.filter(slug=slug).first()
+
+    # if not product:
+    #     return HttpResponseNotFound("Ürün bulunamadı")
+    # if not product:
+    #      return HttpResponseNotFound("Ürün bulunamadı")
+
+    return render(request, "details.html", {
+        "product": product
     })
-
     
-
 
 def getProductsByCategoryId(request , category_id):
     ids = list(data.keys())

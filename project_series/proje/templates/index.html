@@ -1,34 +1,47 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block  css_files%}
-     <link rel="stylesheet" href="{% static "css/style.css" %}">
-{% endblock  %}
 {% block page_title %}
-index.html
-{% endblock page_title %}
+    Ürün Listesi
+{% endblock %}
 
-    <h1>çalıştı index.html</h1>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                {% block content  %} 
-    {%for category in categories %}
-    
-        {% comment %} <a href ="/products/{{ category}}"> {{category}} </a>  böylede kullanılabilir ayda name bilgisiinn paramtreye verdiğimiz oda olabilir.    {% endcomment %}
-           <a class="btn btn-success mt-2" href ="{% url "products_by_category" category %}":   > {{category}}    </a>
-            <strong> İstediğiniz paramtereye gidebilirsiniz </strong>
-    
-    {%endfor%}
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Ürünler</h1>
+
+    <div class="row">
+        {% for product in products %}
+        <li>
+            <a href="{% url 'product_details' slug=product.slug %}">{{ product.name }}</a>
+        </li>
+            <div class="col-md-4 mb-3">
+                <div class="product-item p-3 border rounded">
+
+                    <h5 class="product-title">{{ product.name }}</h5>
+                    <p class="text-muted mb-1">
+                        Kategori: {{ product.category }}
+                    </p>
+                    <p class="fw-bold">
+                        Fiyat: {{ product.price }} ₺
+                    </p>
+
+                </div>
             </div>
-        </div>
+        {% empty %}
+            <div class="col">
+                <p class="text-muted">Henüz ürün eklenmemiş.</p>
+            </div>
+        {% endfor %}
     </div>
 
-   
+</div>
+{% endblock %}
 
-{%endblock%}
-
-     
 {% block js_files %}
-<script src= {% static "js/script.js" %} ></script>
-{% endblock  %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
