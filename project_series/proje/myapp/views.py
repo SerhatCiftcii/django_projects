@@ -3,6 +3,8 @@ from django.shortcuts import redirect,render
 from django.urls import reverse
 import datetime
 from .models import Product
+from django.db.models import Avg,Min,Max
+
 # Create your views here.
 #
 data = {
@@ -11,9 +13,18 @@ data = {
     "elektronik":[]
 }
 def index(request):
-    products=Product.objects.all()
+    # products=Product.objects.all().order_by("price")# fiyat a göre sıralama artan -dan yükseğe
+    products=Product.objects.all().order_by("-price") #fiyat a göre sıralama azalan yükseğden -düşüğe
+    products_count=Product.objects.filter(isActive=True).count()
+    avg_price= Product.objects.filter(isActive=True).aggregate(Avg("price"))
+    product_max=Product.objects.aggregate(Max("price"))
+    product_min=Product.objects.aggregate(Min("price"))
     context={
-        "products":products
+        "products":products,
+        "count":products_count,
+        "avg_active_price":avg_price ,
+        "max_price":product_max,
+        "min_price":product_min
     }
     return render(request,'index.html',context)
 
