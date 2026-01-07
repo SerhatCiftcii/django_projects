@@ -23,7 +23,7 @@ data = {
 # Create your views here.
 
 def index(request):
-    movies = Movie.objects.filter(is_active=True, is_home=True)
+    movies = Movie.objects.filter(is_active=True,is_home=True)
     sliders = data["sliders"]
     return render(request, 'index.html', {
         "movies": movies,
@@ -37,11 +37,11 @@ def movies(request):
     })
 
 def movie_details(request, slug):
-    
-    movie=get_object_or_404(Movie, slug=slug)
-
-   
+    movie = get_object_or_404(Movie, slug=slug)
 
     return render(request, 'movie-details.html', {
-        "movie": movie
+        "movie": movie,
+        "genres": movie.genres.all(),
+        "people": movie.people.all(),
+        "videos": movie.video_set.all()
 })
