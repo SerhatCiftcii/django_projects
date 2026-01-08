@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block page_title %}
+   create.html
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Ürünler</h1>
+
+    <!-- 📊 İSTATİSTİK KARTLARI -->
+    <div class="row mb-4">
+        <form action="create" method="POST">
+             {% csrf_token %}
+            <div class="mb-3">
+                <label for="product_name">Ürün Adı:</label>
+                <input type="text" name="product_name" class="form-control" id="product_name">
+            </div>
+               <div class="mb-3">
+                <label for="price">Ürün Fiyatı:</label>
+                <input type="text" name="price" class="form-control" id="price">
+            </div>
+               <div class="mb-3">
+                <label for="description">Ürün Açıklaması:</label>
+                <textarea name="description" class="form-control"></textarea>
+            </div>
+               <div class="mb-3">
+                <label for="slug">Slug: </label>
+                <input type="text" name="slug" class="form-control" id="slug">
+        </form>
+        
+         <button type="submit" class="btn btn-primary">Ürün Ekle</button>
+        
+</div>
+    </div>
+    <a href="{% url 'index' %}" class="btn btn-secondary mt-3">
+                        ← Geri Dön
+                    </a>
+{% endblock %}
+
+{% block js_files %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

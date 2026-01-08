@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block page_title %}
-    Ürün Listesi
+   list.html
 {% endblock %}
 
 {% block css_files %}
@@ -16,12 +16,6 @@
 
     <!-- 📊 İSTATİSTİK KARTLARI -->
     <div class="row mb-4">
-        <a href="create"  class="btn btn-success btn-sm px-1"> create product</a>
-        <hr>
-        <form action="list" method="get">
-            Kelime : <input type="text" name="q" >
-            <button type="submit">Ara</button>
-        </form>
 
         <div class="col-md-3 col-sm-6 mb-3">
             <div class="card shadow-sm border-0 text-center">
@@ -79,6 +73,9 @@
         {% endfor %}
     </div>
     <!-- 🛒 /ÜRÜN LİSTESİ -->
+  <a href="{% url 'index' %}" class="btn btn-secondary mt-3">
+                        ← Geri Dön
+                    </a>
 
 </div>
 {% endblock %}

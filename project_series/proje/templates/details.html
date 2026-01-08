@@ -23,7 +23,10 @@
                     </h3>
 
                     <p class="text-muted">
-                        Kategori: {{ product.category }}
+                        Kategori: 
+                        {% for category in categories %}
+                            {{ category.name }}
+                        {% endfor %}
                     </p>
 
                     <p class="fs-5 fw-bold">

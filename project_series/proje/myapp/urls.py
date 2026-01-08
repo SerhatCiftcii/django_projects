@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     path('',  views.index, name='index'),     # ikisindede index gelir 
     path('index',  views.index, name='index'),
+    path('list',  views.list),
+    path("create", views.create),
 
 
 
@@ -16,8 +18,7 @@ urlpatterns = [
     
     # path("<int:id>",views.details),
        path("<slug:slug>",views.details ,name="product_details"),#artık id ye göre bekleme değilde slug ile yapacağız eşleşmeyi viewsdada slug belirtcez id kaldırcaz
-     path('<int:category_id>', views.getProductsByCategoryId),
-     path('<str:category>', views.getProductsByCategory ,name='products_by_category')
+
     
      #kategorinin tipini belirleyebiliriz
      #kategorinin tipini belirleyebiliriz
