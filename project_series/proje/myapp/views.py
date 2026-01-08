@@ -26,32 +26,34 @@ def index(request):
     return render(request,'index.html',context)
 
 def list(request):
-    if request.GET["q"] and request.GET["q"] is not None:
-        q=request.GET["q"]
-        products=Product.objects.filter(name__contains=q).order_by("-price")
+    q = request.GET.get("q")  # .get() kullan, q yoksa None döner
+    if q:  # q boş veya None değilse filtre uygula
+        products = Product.objects.filter(name__contains=q).order_by("-price")
     else:
-        return HttpResponseRedirect("/products")
+        products = Product.objects.all().order_by("-price")
 
-    return render(request,'list.html',{
-        "products":products
-        })
+    return render(request, 'list.html', {
+        "products": products
+    })
 def create(request):
     if request.method=="POST":
-        product_name=request.POST["name"]
+        product_name=request.POST["product_name"]
         price=request.POST["price"]
         description=request.POST["description"]
         image_name=request.POST["imageUrl"]
         slug =request.POST["slug"]
+        image_name = ""
+        
+        new_product=Product(
+            name=product_name,
+            price=price,
+            description=description,
+            imageUrl=image_name,
+            slug=slug
+        )
+        new_product.save()
+        return HttpResponseRedirect("list")  # path’in kendisini veriyorsun, name gerek yok
 
-        # new_product=Product(
-        #     name=product_name,
-        #     price=price,
-        #     description=description,
-        #     imageUrl=image_name
-        #     slug=slug
-        # )
-        # new_product.save()
-        return redirect(reverse("myapp:index"))
     return render(request, "create.html")
 
 def details(request, slug):

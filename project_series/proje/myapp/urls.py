@@ -18,7 +18,6 @@ urlpatterns = [
     
     # path("<int:id>",views.details),
        path("<slug:slug>",views.details ,name="product_details"),#artık id ye göre bekleme değilde slug ile yapacağız eşleşmeyi viewsdada slug belirtcez id kaldırcaz
-
     
      #kategorinin tipini belirleyebiliriz
      #kategorinin tipini belirleyebiliriz
