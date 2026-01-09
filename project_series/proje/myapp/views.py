@@ -42,11 +42,15 @@ def create(request):
         description = request.POST.get("description")
         image_name = request.POST.get("imageUrl")
         slug = request.POST.get("slug")
-
-        if product_name == "" or len(product_name) <= 10:
-            return HttpResponse("Ürün adı en az 10 karakter olmalı")
-            if not price or float(price) <= 0:
-        new_product = Product(
+        error=False
+        if (product_name == "" or len(product_name) <= 10):
+            error = True
+        if(error):
+            return render(request, "create.html", {
+                "error":True
+            })
+        else:
+            new_product = Product(
             name=product_name,
             price=price,
             description=description,
