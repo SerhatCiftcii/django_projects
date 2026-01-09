@@ -13,7 +13,10 @@
 <div class="container mt-4">
 
     <h1 class="mb-4">Ürünler</h1>
-
+     <!-- createdeki erroru nasıl alıcam yaz-->
+        {% if error %}
+            <p>Lütfen formu eksiksiz doldurun.</p>
+        {% endif %}
     <!-- 📊 İSTATİSTİK KARTLARI -->
     <div class="row mb-4">
         <form action="create" method="POST">
