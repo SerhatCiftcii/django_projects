@@ -45,7 +45,7 @@ def create(request):
 
         if product_name == "" or len(product_name) <= 10:
             return HttpResponse("Ürün adı en az 10 karakter olmalı")
-
+            if not price or float(price) <= 0:
         new_product = Product(
             name=product_name,
             price=price,
