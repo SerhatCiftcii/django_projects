@@ -36,15 +36,17 @@ def list(request):
         "products": products
     })
 def create(request):
-    if request.method=="POST":
-        product_name=request.POST["product_name"]
-        price=request.POST["price"]
-        description=request.POST["description"]
-        image_name=request.POST["imageUrl"]
-        slug =request.POST["slug"]
-        image_name = ""
-        
-        new_product=Product(
+    if request.method == "POST":
+        product_name = request.POST.get("product_name")
+        price = request.POST.get("price")
+        description = request.POST.get("description")
+        image_name = request.POST.get("imageUrl")
+        slug = request.POST.get("slug")
+
+        if product_name == "" or len(product_name) <= 10:
+            return HttpResponse("Ürün adı en az 10 karakter olmalı")
+
+        new_product = Product(
             name=product_name,
             price=price,
             description=description,
@@ -52,7 +54,14 @@ def create(request):
             slug=slug
         )
         new_product.save()
-        return HttpResponseRedirect("list")  # path’in kendisini veriyorsun, name gerek yok
+
+        return redirect("product_list")
+            
+        # if (product_name==""): Tek tek tanımlamak yerine error tanımlamasıyla yapcaz
+        #     return render(request, "create.html", {
+        #         "error": "Product name is required."
+        #         })
+       
 
     return render(request, "create.html")
 
