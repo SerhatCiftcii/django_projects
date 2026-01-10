@@ -21,26 +21,7 @@
     <div class="row mb-4">
         <form action="create" method="POST">
              {% csrf_token %}
-            <div class="mb-3">
-                <label for="product_name">Ürün Adı:</label>
-                <input type="text" name="product_name" class="form-control" id="product_name">
-            </div>
-               <div class="mb-3">
-                <label for="price">Ürün Fiyatı:</label>
-                <input type="text" name="price" class="form-control" id="price">
-            </div>
-               <div class="mb-3">
-                <label for="description">Ürün Açıklaması:</label>
-                <textarea name="description" class="form-control"></textarea>
-            </div>
-               <div class="mb-3">
-                <label for="slug">Slug: </label>
-                <input type="text" name="slug" class="form-control" id="slug">
-        </form>
-        <div class="mb-3">
-    <label for="imageUrl">Ürün Resmi URL:</label>
-    <input type="text" name="imageUrl" class="form-control" id="imageUrl">
-    </div>
+             {{ form}}
         
          <button type="submit" class="btn btn-primary">Ürün Ekle</button>
         

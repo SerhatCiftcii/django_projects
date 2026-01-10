@@ -1,11 +1,10 @@
-from unicodedata import name
-from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect, response
-from django.shortcuts import redirect,render
+from django.http.response import Http404, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-import datetime
 from .models import Product
-from django.db.models import Avg,Min,Max
-from django.template.context_processors import request
+from .forms import ProductCreateForm
+from django.db.models import Max
+from django.db.models import Min
 
 # Create your views here.
 #
@@ -36,38 +35,24 @@ def list(request):
         "products": products
     })
 def create(request):
-    if request.method == "POST":
-        product_name = request.POST.get("product_name")
-        price = request.POST.get("price")
-        description = request.POST.get("description")
-        image_name = request.POST.get("imageUrl")
-        slug = request.POST.get("slug")
-        error=False
-        if (product_name == "" or len(product_name) <= 10):
-            error = True
-        if(error):
-            return render(request, "create.html", {
-                "error":True
-            })
-        else:
-            new_product = Product(
-            name=product_name,
-            price=price,
-            description=description,
-            imageUrl=image_name,
-            slug=slug
-        )
-        new_product.save()
 
-        return redirect("product_list")
-            
-        # if (product_name==""): Tek tek tanımlamak yerine error tanımlamasıyla yapcaz
-        #     return render(request, "create.html", {
-        #         "error": "Product name is required."
-        #         })
-       
+    if request.method == 'POST':
+        form = ProductCreateForm(request.POST)
 
-    return render(request, "create.html")
+        if form.is_valid():
+            p = Product(name= form.cleaned_data["product_name"], 
+            description = form.cleaned_data["description"], 
+            price= form.cleaned_data["price"], 
+            imageUrl="1.jpg", 
+            slug=form.cleaned_data["slug"])
+            p.save()
+            return HttpResponseRedirect("list") 
+    else:
+        form = ProductCreateForm()
+        
+    return render(request, "create.html", {
+        "form": form
+    })
 
 def details(request, slug):
     product = Product.objects.filter(slug=slug).first()
