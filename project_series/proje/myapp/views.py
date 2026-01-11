@@ -1,8 +1,9 @@
+from django.contrib import messages
 from django.http.response import Http404, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .models import Product
-from .forms import ProductCreateForm
+from .forms import ProductForm
 from django.db.models import Max
 from django.db.models import Min
 
@@ -35,24 +36,53 @@ def list(request):
         "products": products
     })
 def create(request):
+    
+    #Alternatif Yöntem else yerine
+    # if request.method == 'GET':
+    #     form = ProductCreateForm()
 
     if request.method == 'POST':
-        form = ProductCreateForm(request.POST)
+        form = ProductForm(request.POST)
 
-        if form.is_valid():
-            p = Product(name= form.cleaned_data["product_name"], 
-            description = form.cleaned_data["description"], 
-            price= form.cleaned_data["price"], 
-            imageUrl="1.jpg", 
-            slug=form.cleaned_data["slug"])
-            p.save()
-            return HttpResponseRedirect("list") 
+        if form.is_valid(): # modelse göre validasyon yapar 2.yöntem alltaki yazdıklarımızla uğraşmıyoruz.
+            # p = Product(name= form.cleaned_data["product_name"], 
+            # description = form.cleaned_data["description"], 
+            # price= form.cleaned_data["price"], 
+            # imageUrl="1.jpg", 
+            # slug=form.cleaned_data["slug"])
+            form.save()
+            # messages.success(request, "Ürün başarıyla eklendi")
+            return HttpResponseRedirect("list")
     else:
-        form = ProductCreateForm()
+        form = ProductForm()
         
     return render(request, "create.html", {
         "form": form
     })
+def edit(request,id):
+    product = get_object_or_404(Product, pk=id)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('product_details', args=[product.slug]))
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'edit.html', {
+        'form': form,
+        'product': product
+    })
+def delete(request,id):
+    product = get_object_or_404(Product, pk=id)
+    
+    if request.method == 'POST':
+        product.delete()
+        return redirect('product_list')
+    return render(request, 'delete-confirm.html', {
+        'product': product
+    })
+    
+        
 
 def details(request, slug):
     product = Product.objects.filter(slug=slug).first()

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block page_title %}
+    {{ product.name }} | Ürün Detayı
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <p>
+               
+                <strong> {{product.name}}</strong> iismli ürünü silmek istediğinize emin misiniz?
+                <form action="{% url "product_delete" product.id %}" method="POST"  >
+                     {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Evet</button>
+                
+                <a href="{% url "product_list" %}" class="btn btn-success">
+                    Hayır
+                </a>
+
+                </form>
+            </p>
+
+                    <a href="{% url 'index' %}" class="btn btn-secondary mt-3">
+                        ← Geri Dön
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js_files %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

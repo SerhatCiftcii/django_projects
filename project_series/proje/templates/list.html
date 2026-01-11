@@ -14,41 +14,18 @@
 
     <h1 class="mb-4">Ürünler</h1>
 
-    <!-- 📊 İSTATİSTİK KARTLARI -->
-    <div class="row mb-4">
-
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <small class="text-muted">Minimum Fiyat</small>
-                    <h3 class="fw-bold text-warning">
-                        {{ min_price.price__min }} ₺
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-3">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <small class="text-muted">Maksimum Fiyat</small>
-                    <h3 class="fw-bold text-danger">
-                        {{ max_price.price__max }} ₺
-                    </h3>
-                </div>
-            </div>
-        </div>
-
     </div>
     <!-- 📊 /İSTATİSTİK KARTLARI -->
 
     <!-- 🛒 ÜRÜN LİSTESİ -->
     <div class="row">
+        
         {% for product in products %}
 
             <div class="col-md-4 mb-3">
                 <div class="product-item p-3 border rounded h-100">
-
+                    <a href="{% url "product_edit" product.id %}"> edit</a>
+                    <a href="{% url "product_delete" product.id %}"> delete</a>
                     <h5 class="product-title">
                         <a href="{% url 'product_details' slug=product.slug %}">
                             {{ product.name }}
