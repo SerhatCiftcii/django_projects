@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block page_title %}
+   success.html
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Ürünler</h1>
+
+    </div>
+    <!-- 📊 /İSTATİSTİK KARTLARI -->
+
+    <!-- 🛒 ÜRÜN LİSTESİ -->
+    <div class="row">
+            <div class="col">
+                  <p> Dosya başarıyla yüklendi</p>
+            </div>
+
+        
+    </div>
+    <!-- 🛒 /ÜRÜN LİSTESİ -->
+  <a href="{% url 'index' %}" class="btn btn-secondary mt-3">
+                        ← Geri Dön
+   </a>
+
+</div>
+{% endblock %}
+
+{% block js_files %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

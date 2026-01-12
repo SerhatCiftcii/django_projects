@@ -58,3 +58,6 @@ class ProductForm(forms.ModelForm): # genel form yapısı
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
             "slug": forms.TextInput(attrs={"class": "form-control"})
         }
+class UploadForm(forms.Form):       
+    image=forms.FileField()
+    

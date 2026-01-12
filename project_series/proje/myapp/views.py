@@ -1,12 +1,15 @@
+from email.mime import image
 from django.contrib import messages
 from django.http.response import Http404, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .models import Product
-from .forms import ProductForm
+from .forms import ProductForm, UploadForm
 from django.db.models import Max
 from django.db.models import Min
-
+from django.template.context_processors import request
+import random
+import os
 # Create your views here.
 #
 
@@ -96,7 +99,31 @@ def details(request, slug):
         "product": product,
         "categories":categories
     })
+
+def handle_upload_file(file):
+    number=random.randint(10000,99999)
+    filename , file_extension = os.path.splitext(file.name)
+    name = filename +  "_" +str(number) + file_extension
+    with open("temp/"+ name,  "wb+") as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+
+def upload(request):
     
+    if request.method=="POST" and request.FILES:
+        form = UploadForm(request.POST,request.FILES)
+        
+        if form.is_valid():
+            # upload_image = request.FILES["image"] birtane seçim için bu
+            upload_image = request.FILES.getlist("image") #birden fazla dosya bilgisi
+            handle_upload_file( upload_image)
+            print(request.POST)
+            return render(request, "success.html")
+    else:
+        form=UploadForm()
+    return render(request, "upload.html", {
+        "form":form
+    })
 
 
         
