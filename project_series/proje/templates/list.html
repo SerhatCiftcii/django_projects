@@ -2,61 +2,90 @@
 {% load static %}
 
 {% block page_title %}
-   list.html
-{% endblock %}
-
-{% block css_files %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+Ürünler
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-5">
 
-    <h1 class="mb-4">Ürünler</h1>
-
+    <!-- Başlık -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">🛒 Ürünler</h2>
+        <a href="{% url 'index' %}" class="btn btn-outline-secondary">
+            ← Geri Dön
+        </a>
     </div>
-    <!-- 📊 /İSTATİSTİK KARTLARI -->
 
-    <!-- 🛒 ÜRÜN LİSTESİ -->
-    <div class="row">
-        
+    <!-- Ürün Listesi -->
+    <div class="row g-4">
         {% for product in products %}
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
 
-            <div class="col-md-4 mb-3">
-                <div class="product-item p-3 border rounded h-100">
-                    <a href="{% url "product_edit" product.id %}"> edit</a>
-                    <a href="{% url "product_delete" product.id %}"> delete</a>
-                    <h5 class="product-title">
-                        <a href="{% url 'product_details' slug=product.slug %}">
+                <!-- ✅ ÜRÜN GÖRSELİ (HATA OLMAYAN HAL) -->
+                {% if product.image %}
+                    <img 
+                        src="{{ product.image.url }}"
+                        class="card-img-top img-fluid"
+                        style="height: 220px; object-fit: cover;"
+                        alt="{{ product.name }}"
+                    >
+                {% else %}
+                    <img 
+                        src="https://via.placeholder.com/400x220?text=No+Image"
+                        class="card-img-top img-fluid"
+                        style="height: 220px; object-fit: cover;"
+                        alt="No image"
+                    >
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+
+                    <!-- Ürün Adı -->
+                    <h5 class="card-title">
+                        <a href="{% url 'product_details' slug=product.slug %}" 
+                           class="text-decoration-none text-dark">
                             {{ product.name }}
                         </a>
                     </h5>
 
-                    <p class="text-muted mb-1">
-                        Kategori: {{ product.category }}
+                    <!-- Kategoriler -->
+                    <p class="text-muted small mb-2">
+                        Kategoriler:
+                        {% for category in product.categories.all %}
+                            {{ category.name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            Yok
+                        {% endfor %}
                     </p>
 
-                    <p class="fw-bold mb-0">
-                        Fiyat: {{ product.price }} ₺
+                    <!-- Fiyat -->
+                    <p class="fw-bold fs-5 text-success mb-3">
+                        {{ product.price }} ₺
                     </p>
+
+                    <!-- Butonlar -->
+                    <div class="mt-auto d-flex justify-content-between">
+                        <a href="{% url 'product_edit' product.id %}" 
+                           class="btn btn-sm btn-outline-success">
+                            ✏️ Düzenle
+                        </a>
+
+                        <a href="{% url 'product_delete' product.id %}" 
+                           class="btn btn-sm btn-outline-danger">
+                            🗑️ Sil
+                        </a>
+                    </div>
 
                 </div>
             </div>
-
+        </div>
         {% empty %}
-            <div class="col">
-                <p class="text-muted">Henüz ürün eklenmemiş.</p>
-            </div>
+        <div class="col text-center">
+            <p class="text-muted">Henüz ürün eklenmemiş.</p>
+        </div>
         {% endfor %}
     </div>
-    <!-- 🛒 /ÜRÜN LİSTESİ -->
-  <a href="{% url 'index' %}" class="btn btn-secondary mt-3">
-                        ← Geri Dön
-                    </a>
 
 </div>
-{% endblock %}
-
-{% block js_files %}
-    <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

@@ -45,7 +45,7 @@ class ProductForm(forms.ModelForm): # genel form yapısı
                 
             },
         }
-        fields = ["name", "price", "description", "slug"] #hangi alanları kullanmak istiyorsak onları yazcaz
+        fields = ["name", "price", "description", "slug","image"] #hangi alanları kullanmak istiyorsak onları yazcaz
         labels = {
             "name": "Ürün Adı",
             "price": "Fiyat",

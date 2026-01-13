@@ -4,12 +4,13 @@ from django.http.response import Http404, HttpResponseNotFound, HttpResponseRedi
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .models import Product
+from .models import UploadModel
 from .forms import ProductForm, UploadForm
 from django.db.models import Max
 from django.db.models import Min
 from django.template.context_processors import request
-import random
-import os
+
+
 # Create your views here.
 #
 
@@ -45,7 +46,7 @@ def create(request):
     #     form = ProductCreateForm()
 
     if request.method == 'POST':
-        form = ProductForm(request.POST)
+        form = ProductForm(request.POST, request.FILES)
 
         if form.is_valid(): # modelse göre validasyon yapar 2.yöntem alltaki yazdıklarımızla uğraşmıyoruz.
             # p = Product(name= form.cleaned_data["product_name"], 
@@ -62,10 +63,10 @@ def create(request):
     return render(request, "create.html", {
         "form": form
     })
-def edit(request,id):
+def edit(request,id ):
     product = get_object_or_404(Product, pk=id)
     if request.method == 'POST':
-        form = ProductForm(request.POST, instance=product)
+        form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
             return redirect(reverse('product_details', args=[product.slug]))
@@ -99,25 +100,24 @@ def details(request, slug):
         "product": product,
         "categories":categories
     })
-
-def handle_upload_file(file):
-    number=random.randint(10000,99999)
-    filename , file_extension = os.path.splitext(file.name)
-    name = filename +  "_" +str(number) + file_extension
-    with open("temp/"+ name,  "wb+") as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
+#artık bunu kullanmıcaz modelde tanımladık (model bizim adımızı yapıcak)
+# def handle_upload_file(file):
+#     number=random.randint(10000,99999)
+#     filename , file_extension = os.path.splitext(file.name)
+#     name = filename +  "_" +str(number) + file_extension
+#     with open("temp/"+ name,  "wb+") as destination:
+#         for chunk in file.chunks():
+#             destination.write(chunk)
 
 def upload(request):
     
-    if request.method=="POST" and request.FILES:
+    if request.method=="POST":
         form = UploadForm(request.POST,request.FILES)
         
         if form.is_valid():
-            # upload_image = request.FILES["image"] birtane seçim için bu
-            upload_image = request.FILES.getlist("image") #birden fazla dosya bilgisi
-            handle_upload_file( upload_image)
-            print(request.POST)
+            model= UploadModel(image = request.FILES["image"])
+            model.save()
+            
             return render(request, "success.html")
     else:
         form=UploadForm()

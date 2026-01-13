@@ -31,7 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "account",
     'myapp.apps.MyappConfig',  
+
     #alternatifi apps içine myapp tanımlanmış direkt onuda yazabiliriz kısa yol olarak buda kısası ama benbde hata verdi asıl kullanım üstten
     # 'myapp'
     'django.contrib.admin',
@@ -123,8 +125,12 @@ STATIC_URL = 'static/' # uyuglama çalışınca uyg. her uyuglama bu staıc dosy
 STATICFILES_DIRS =[
     BASE_DIR / "static",
    
-] #global düzeyde static examplaında dışında bu template yaptığımız gibi aslında
+] 
+MEDIA_ROOT= BASE_DIR / "uploads" #otomaitk olarak uploads klsoru konuma gelicek ve oluşucak bu klasor
+MEDIA_URL="/media/"  #aslında uploada gidiypruz burdaki takma isim dışarıya açıyoruz
 
+
+#global düzeyde static examplaında dışında bu template yaptığımız gibi aslında
 # import os
 
 # MEDIA_URL = [os.path.join(BASE_DIR, 'media')]

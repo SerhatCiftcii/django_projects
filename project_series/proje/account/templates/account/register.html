@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block page_title %}
+   register.htmld
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+    
+            <h1>Register</h1>
+      
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" required> 
+                </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">email</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+                  <div class="mb-3">
+                    <label for="paswword" class="form-label">password</label>
+                    <input type="paswword" name="paswword" id="paswword" class="form-control" required>
+                </div>
+                  <div class="mb-3">
+                    <label for="repaswword" class="form-label">repaswword</label>
+                    <input type="repaswword" name="repaswword" id="repaswword" class="form-control" required>
+                </div>
+
+                <input type="submit" value="Register" class="btn btn-primary">
+            </form>
+
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'index' %}" class="btn btn-link">
+            ← Geri Dön
+        </a>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js_files %}
+    
+{% endblock %}
