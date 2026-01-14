@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 # Create your views here.
 def login_request(request):
@@ -16,13 +17,14 @@ def login_request(request):
             login(request,user)
             nextUrl= request.GET.get("next", None) # yetki olmayan yerlerde login olmadıysak ve sonra login olduysak o anki login olmadığımız yuetkilenmediğimiz yere gideriz.
             if nextUrl is None:
+                messages.success(request, "Login başarılı")
                 return redirect("products")
             else:
                 return redirect(nextUrl)
         else:
-            return render(request, "account/login.html",{
-            "error":"username yada parola yanlış"
-            })
+            messages.error(request,"username yada parola yanlış")
+            return render(request, "account/login.html")
+    
         
     else:
         return render(request, "account/login.html")
@@ -60,4 +62,5 @@ def register_request(request):
 
 def logout_request(request):
     logout(request)
+    messages.error(request,"Çıkış Başarılı")
     return redirect("products")

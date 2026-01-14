@@ -14,12 +14,12 @@
             <br>
             <form method="POST">
                 {% csrf_token %}
-
-                {% if error %}
+                
+                {% comment %} {% if error %}
                     <div class="alert alert-warning">
                         {{error}}
                     </div>
-                {% endif %}
+                {% endif %} {% endcomment %}
                 
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>

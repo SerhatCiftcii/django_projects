@@ -1,0 +1,32 @@
+{% if messages %}
+<div class="container mt-3">
+  {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade show mb-0 text-center "
+         role="alert">
+      
+      <div class="flex-grow-1">
+        {{ message }}
+      </div>
+
+      <button type="button"
+              class="btn-close ms-2"
+              data-bs-dismiss="alert"
+              aria-label="Close"></button>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+
+
+                     {% comment %} <ul class="messages">
+                        {% for message in messages %}
+
+                         {% comment %} Bu yapıyı tempalete deki layouta koayrak emssages yazdırabilriiz partials olarak koyup yapcaz 
+                         {% endcomment %}
+                            {% comment %} <li class="{{ message.tags }}">
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul> 
+                {% endif %} {% endcomment %}

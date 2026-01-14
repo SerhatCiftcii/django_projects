@@ -16,11 +16,12 @@
       
             <hr>
             <form method="POST">
-               <div class="alert alert-danger" role="alert">
+             
+               {% comment %} <div class="alert alert-danger" role="alert">
                     {% if error %}
                         {{ error }}
                     {% endif %}
-                </div>
+                </div> {% endcomment %}
                 <hr>
                
                 {% csrf_token %}
