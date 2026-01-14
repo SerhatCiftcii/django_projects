@@ -8,7 +8,10 @@ from .models import UploadModel
 from .forms import ProductForm, UploadForm
 from django.db.models import Max
 from django.db.models import Min
-from django.template.context_processors import request
+
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -28,8 +31,10 @@ def index(request):
         "min_price":product_min
     }
     return render(request,'index.html',context)
-
+@login_required(login_url="/account/login")
 def list(request):
+    # if not request.user.is_authenticated: # bunu yapmak yerine decoreter yani @login_required diyoruz bunun yerine
+    #     return redirect("login")
     q = request.GET.get("q")  # .get() kullan, q yoksa None döner
     if q:  # q boş veya None değilse filtre uygula
         products = Product.objects.filter(name__contains=q).order_by("-price")
@@ -39,6 +44,7 @@ def list(request):
     return render(request, 'list.html', {
         "products": products
     })
+@login_required(login_url="/account/login")
 def create(request):
     
     #Alternatif Yöntem else yerine

@@ -16,6 +16,13 @@
       
             <hr>
             <form method="POST">
+               <div class="alert alert-danger" role="alert">
+                    {% if error %}
+                        {{ error }}
+                    {% endif %}
+                </div>
+                <hr>
+               
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -26,12 +33,12 @@
                     <input type="email" name="email" id="email" class="form-control" required>
                 </div>
                   <div class="mb-3">
-                    <label for="paswword" class="form-label">password</label>
-                    <input type="paswword" name="paswword" id="paswword" class="form-control" required>
+                    <label for="password" class="form-label">password</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
                 </div>
                   <div class="mb-3">
-                    <label for="repaswword" class="form-label">repaswword</label>
-                    <input type="repaswword" name="repaswword" id="repaswword" class="form-control" required>
+                    <label for="repassword" class="form-label">repassword</label>
+                    <input type="password" name="repassword" id="repassword" class="form-control" required>
                 </div>
 
                 <input type="submit" value="Register" class="btn btn-primary">
