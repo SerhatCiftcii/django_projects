@@ -24,12 +24,12 @@
                 </h6>
                 <small class="text-muted">8,784</small>
               </div>
-              <img src="{% static 'img/'|add:movie.image_cover %}" class="img-fluid" alt="..." />
+              <img src="{{movie.image_cover.url}}" class="img-fluid" alt="..." />
             </div>
           </div>
           <div class="col-xl-3 col-lg-3">
             <div class="bg-white p-3 widget shadow rounded mb-4">
-              <img src="{% static 'img/'|add:movie.image_name %}" class="img-fluid rounded" alt="..." />
+              <img src="{{movie.image_name.url}}" class="img-fluid rounded" alt="..." />
              
               <p>
                 {% for person in people %}
@@ -72,6 +72,7 @@
                   ></a>
                 </div>
               </div>
+              
               <div
                 class="row d-flex align-items-center justify-content-between py-3 px-4">
                 <div class="col-lg-6 m-b-4">
@@ -153,7 +154,7 @@
                   id="home"
                   role="tabpanel"
                   aria-labelledby="home-tab">
-                  {{ movie.description }}
+                  {{ movie.description|safe }}
                 </div>
                 <div
                   class="tab-pane fade"

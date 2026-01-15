@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
 from django.db.models.fields import CharField
+from ckeditor.fields import RichTextField
 
 
 class Genre(models.Model):
@@ -50,9 +51,9 @@ class Person(models.Model):
 # Create your models here.
 class Movie(models.Model):
     title=models.CharField("Başlık",max_length=100)
-    description=models.TextField("Açıklama",validators=[MinLengthValidator(20)]) # mutlaka 20 karakter olmalı
-    image_name=models.CharField("Resim",max_length=50)
-    image_cover=models.CharField("Kapak Resmi",max_length=50)
+    description=RichTextField()
+    image_name=models.ImageField(upload_to="movies")
+    image_cover=models.ImageField(upload_to="movies")
     date = models.DateField(null=True, blank=True)
     slug=models.SlugField(unique=True,db_index=True)
     budget=models.DecimalField("Bütçe",max_digits=15,decimal_places=2)
@@ -70,13 +71,19 @@ class Movie(models.Model):
     def __str__(self):
         return f"[{self.id}] - {self.title}"
 
-
+    
+class Comment(models.Model):
+    full_name = models.CharField(max_length=20)
+    email =models.EmailField()
+    text =models.TextField(max_length=500)
+    movie=models.ForeignKey(Movie,on_delete=models.CASCADE, related_name="comments")
 class Video(models.Model):
     title = models.CharField(max_length=100)
     url= models.CharField(max_length=200)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     def __str__(self):
         return f"[{self.id}] - {self.title}"
+
     
     
     
