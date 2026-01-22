@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 
 from account.forms import CreateUserForm, LoginForm
+from movies.models import Movie
 # Create your views here.
 def login_request(request):
     if request.user.is_authenticated:
@@ -92,6 +93,13 @@ def register_request(request):
 
 def change_password(request):
     return render(request,"account/change_password.html")
+def profile(request):
+   
+    return render(request,"account/profile.html")
+def watch_list(request):
+    return render(request,"account/watch_list.html")
 
 def logout_request(request):
-    return render(request,"account/change_password.html")
+    logout(request)
+    return redirect("home_page")
+
