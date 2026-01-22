@@ -60,13 +60,15 @@ def register_request(request):
             # 5. ADIM: Eğer yukarıdaki tüm kontrollerden GEÇTİYSE buraya girer.
             # form.save() diyerek veritabanına yeni kullanıcıyı yazarız.
             user = form.save()
-
+            
             # 6. ADIM: Kayıttan sonra kullanıcıyı otomatik içeri alalım (Login).
             # Dikkat: authenticate için ham şifre gerekir. 
             # form.cleaned_data['password1'] artık güvenli ve hazırdır.
             #Neden buradayız? Çünkü kullanıcıyı kayıt ettikten sonra 
 # tekrar "Giriş Yap" sayfasına yollayıp uğraştırmak istemiyoruz. direkt login 
-            username = form.cleaned_data.get("username")
+
+            # username = form.cleaned_data.get("username")
+            username=user.username
             password = form.cleaned_data.get("password1")
             
             user = authenticate(username=username, password=password)

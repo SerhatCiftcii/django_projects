@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import fields, widgets
-
+import random
 
 class LoginForm(forms.Form):
     email= forms.EmailField(widget=forms.EmailInput(attrs={"class":"form-control form-user", "placeholder":"EnterEmailadress."}))
@@ -52,7 +52,12 @@ class CreateUserForm(UserCreationForm):
     def save(self,commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+        user.username = "{}_{}_{}".format(
+            self.cleaned_data.get("first_name").replace("ı","i").replace("ö","o").lower(),
+            self.cleaned_data.get("last_name").lower(),
+            random.randint(11111,99999)
+        )
         if commit:
             user.save()
-            return user            
-    
+        
+        return user
